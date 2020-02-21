@@ -29,7 +29,7 @@
     "lint:types": "tsc --noEmit --skipLibCheck",
     "start": "ember serve",
     "test": "yarn test:smoke",
-    "test:smoke": "echo 'not implemented yet'",
+    "test:smoke": "./tests/integration/run-tests.sh",
     "prepublish": "rollup -c"
   },
   "peerDependencies": {
