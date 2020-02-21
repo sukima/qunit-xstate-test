@@ -22,6 +22,6 @@ testem.log
 yarn-error.log
 
 # test files
-/tests/fixtures/**/yarn.lock
-/tests/fixtures/**/node_modules/
-/tests/fixtures/**/dist/
+/tests/integration/fixtures/**/yarn.lock
+/tests/integration/fixtures/**/node_modules/
+/tests/integration/fixtures/**/dist/
