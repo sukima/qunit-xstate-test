@@ -2,7 +2,7 @@
 /blueprints/*/files/
 /vendor/
 /tests/fixtures/
-/smoke-tests/
+/tests/integration/
 
 # compiled output
 /dist/
