@@ -62,6 +62,7 @@
     "node": "8.* || >= 10.*"
   },
   "dependencies": {
-    "@xstate/test": "^0.3.0"
+    "@xstate/test": "^0.3.0",
+    "xstate": "^4.7.8"
   }
 }
