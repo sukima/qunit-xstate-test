@@ -11,9 +11,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+    - uses: rwjblue/setup-volta@v1
+
     - name: Install
       run: yarn install
     - name: Linting
@@ -28,9 +27,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+    - uses: rwjblue/setup-volta@v1
+
     - name: Install
       run: yarn install
     - name: Test
