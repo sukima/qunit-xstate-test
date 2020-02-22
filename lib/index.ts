@@ -1,4 +1,6 @@
+/* global QUnit */
 import { TestModel } from '@xstate/test';
+import { TestPlan } from '@xstate/test/lib/types';
 
 export function setupXStateTest<TestContext, TContext>(
   hooks: NestedHooks,
@@ -22,3 +24,23 @@ export function setupXStateTest<TestContext, TContext>(
     }
   });
 }
+
+type TestCallbackFn<TestContext, TContext, TReturn> = (
+  assert: Assert,
+  path: TestPlan<TestContext, TContext>['paths'][0]
+) => TReturn;
+
+export const testShortestPaths = <TestContext, TContext, TReturn>(
+  testModel: TestModel<TestContext, TContext>,
+  testCallback: TestCallbackFn<TestContext, TContext, TReturn>
+) => {
+  testModel.getShortestPathPlans().forEach(plan => {
+    QUnit.module(plan.description, function() {
+      plan.paths.forEach(path => {
+        QUnit.test(path.description, function(assert) {
+          return testCallback(assert, path);
+        });
+      });
+    });
+  });
+};
