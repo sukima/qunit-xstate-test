@@ -37,46 +37,54 @@ const thingBadModel = createModel(
   })
 );
 
+type OkSpyConfig = { ok?: SinonSpy };
+
+function setupAssertOkSpy(hooks: NestedHooks): OkSpyConfig {
+  let spyConfig: OkSpyConfig = {};
+  let originalOk: Assert['ok'];
+
+  hooks.before(function(assert) {
+    spyConfig.ok = sinon.spy();
+    originalOk = ((assert as any).__proto__).ok;
+    (assert as any).__proto__.ok = spyConfig.ok;
+  });
+
+  hooks.after(function(assert) {
+    (assert as any).__proto__.ok = originalOk;
+  });
+
+  return spyConfig;
+}
 
 module('Integration | setupXStateTest', function() {
 
   module('Success', function(hooks) {
-    setupXStateTest(hooks, thingGoodModel);
+    let spy = setupAssertOkSpy(hooks);
 
-    thingGoodModel.getShortestPathPlans().forEach(plan => {
-      module(plan.description, function() {
-        plan.paths.forEach(path => {
-          test(path.description, function(assert) {
-            path.test({ assert });
-          });
-        });
-      });
+    hooks.after(function(assert) {
+      assert.equal(spy.ok?.called, false, 'assert.ok not called');
     });
 
+    setupXStateTest(hooks, thingGoodModel);
+
+    testShortestPaths(thingGoodModel, function(assert, path) {
+      return path.test({ assert });
+    });
   });
 
   module('Failure', function(hooks) {
-    let okSpy: SinonSpy;
-    let originalOk: Assert['ok'];
-
-    hooks.before(function(assert) {
-      okSpy = sinon.spy();
-      originalOk = ((assert as any).__proto__).ok;
-      (assert as any).__proto__.ok = okSpy;
-    });
+    let spy = setupAssertOkSpy(hooks);
 
     hooks.after(function(assert) {
-      (assert as any).__proto__.ok = originalOk;
-
-      assert.equal(okSpy.called, true, 'ok called');
-      assert.equal(okSpy.callCount, 1);
-      assert.equal(okSpy.getCall(0).args[0], false);
-      assert.equal(okSpy.getCall(0).args[1], 'Not all tests were exercised in this test suite (see console)');
+      assert.equal(spy.ok?.called, true, 'assert.ok called');
+      assert.equal(spy.ok?.callCount, 1);
+      assert.equal(spy.ok?.getCall(0).args[0], false);
+      assert.equal(spy.ok?.getCall(0).args[1], 'Not all tests were exercised in this test suite (see console)');
     });
 
     setupXStateTest(hooks, thingBadModel);
 
-    testShortestPaths(thingBadModel, (assert, path) => {
+    testShortestPaths(thingBadModel, function(assert, path) {
       return path.test({ assert });
     });
   });
