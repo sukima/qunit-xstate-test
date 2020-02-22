@@ -9,7 +9,20 @@ import { setupXStateTest, testShortestPaths } from 'qunit-xstate-test';
 import { Machine } from 'xstate';
 import { createModel } from '@xstate/test';
 
-const testModel = createModel(Machine({ ... }));
+const testModel = createModel(
+  Machine({
+    // ...
+    states: {
+      'state-name': {
+        meta: { 
+          test({ assert }) {
+            assert.equal(/* assert something about your state */);
+          }
+        }
+      }
+    }
+  })
+);
 
 module('Testing my State Machine', function(hooks) {
   setupXStateTest(hooks, testModel);
