@@ -1,49 +1,30 @@
-qunit-assertions-extra
+qunit-xstate-test
 ==============================================================================
 
-A Collection of helpful assertions for use with qunit.
+QUnit integration with @xstate/test
 
 ```ts
-assert.contains('Hello there!', 'Hello');
-assert.contains([1, 3], 3);
+module('Testing my State Machine', function(hooks) {
+  setupXStateTest(hooks, myTestModel);
 
-assert.matches('Hello there!', /Hello/);
+  // set up and execute tests
+});
 ```
+
+`setupXStateTest` defines an `after` hook that checks your state machine's test coverage.
 
 
 Installation
 ------------------------------------------------------------------------------
 
 ```
-yarn add --dev qunit-assertions-extra
-npm install --save-dev qunit-assertions-extra
+yarn add --dev qunit-xstate-test
+npm install --save-dev qunit-xstate-test
 ```
-
-Then, wherever qunit tests are initialized, add
-```ts
-import 'qunit-assertions-extra';
-```
-
-This will also enable the tsserver to provide intellisense for `assert`.
 
 ## Ember Projects
 
 Requirements: [ember-auto-import](https://github.com/ef4/ember-auto-import) and add the above import to your `tests/test-helper.js` file.
-
-Example:
-```js
-import Application from '../app';
-import config from '../config/environment';
-import { setApplication } from '@ember/test-helpers';
-import { start } from 'ember-qunit';
-
-import 'qunit-assertions-extra';
-
-setApplication(Application.create(config.APP));
-
-start();
-```
-
 
 
 Contributing

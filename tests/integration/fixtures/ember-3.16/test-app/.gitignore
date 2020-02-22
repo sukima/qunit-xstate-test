@@ -3,8 +3,6 @@
 # compiled output
 /dist/
 /tmp/
-/lib/**/*.d.ts
-
 
 # dependencies
 /bower_components/
@@ -17,11 +15,11 @@
 /connect.lock
 /coverage/
 /libpeerconnection.log
-npm-debug.log*
-testem.log
-yarn-error.log
+/npm-debug.log*
+/testem.log
+/yarn-error.log
 
-# test files
-/tests/integration/fixtures/**/yarn.lock
-/tests/integration/fixtures/**/node_modules/
-/tests/integration/fixtures/**/dist/
+# ember-try
+/.node_modules.ember-try/
+/bower.json.ember-try
+/package.json.ember-try
