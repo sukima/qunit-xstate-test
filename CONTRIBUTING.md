@@ -3,7 +3,7 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd qunit-assertions-extra`
+* `cd qunit-xstate-test
 * `npm install`
 
 ## Linting
