@@ -15,7 +15,7 @@ const testModel = createModel(
     states: {
       'state-name': {
         meta: { 
-          test({ assert }) {
+          async test({ assert }) {
             assert.equal(/* assert something about your state */);
           }
         }
