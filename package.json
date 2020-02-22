@@ -1,6 +1,6 @@
 {
   "name": "qunit-xstate-test",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Use @xstate/test with QUnit",
   "main": "dist/index.js",
   "keywords": [
