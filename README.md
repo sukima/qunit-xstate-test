@@ -1,17 +1,47 @@
 qunit-xstate-test
 ==============================================================================
 
-QUnit integration with @xstate/test
+QUnit integration with [@xstate/test](https://xstate.js.org/docs/packages/xstate-test/)
 
 ```ts
-module('Testing my State Machine', function(hooks) {
-  setupXStateTest(hooks, myTestModel);
+import { module } from 'qunit';
+import { setupXStateTest, testShortestPaths } from 'qunit-xstate-test';
+import { Machine } from 'xstate';
+import { createModel } from '@xstate/test';
 
-  // set up and execute tests
+const testModel = createModel(
+  Machine({
+    // ...
+    states: {
+      'state-name': {
+        meta: { 
+          async test({ assert }) {
+            assert.equal(/* assert something about your state */);
+          }
+        }
+      }
+    }
+  })
+);
+
+module('Testing my State Machine', function(hooks) {
+  setupXStateTest(hooks, testModel);
+
+  testShortestPaths(testModel, (assert, path) => {
+    // set up for your tests
+    // ...
+    // pass `assert` to your meta.test context
+    return path.test({ assert });
+  });
 });
 ```
 
-`setupXStateTest` defines an `after` hook that checks your state machine's test coverage.
+NOTE: `setupXStateTest` defines an `after` hook that checks your state machine's test coverage.
+
+Examples:
+
+ - [Integration Test with an Ember App](https://github.com/sukima/qunit-xstate-test/blob/master/tests/integration/fixtures/ember-3.16/test-app/tests/unit/qunit-xstate-test.ts#L61-L73)
+ - [General `@xstate/test` Docs](https://xstate.js.org/docs/packages/xstate-test/)
 
 
 Installation
@@ -24,7 +54,7 @@ npm install --save-dev qunit-xstate-test
 
 ## Ember Projects
 
-Requirements: [ember-auto-import](https://github.com/ef4/ember-auto-import) and add the above import to your `tests/test-helper.js` file.
+Requirements: [ember-auto-import](https://github.com/ef4/ember-auto-import)
 
 
 Contributing
